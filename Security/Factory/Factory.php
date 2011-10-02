@@ -23,7 +23,7 @@ class SsoFactory implements SecurityFactoryInterface
     {
         // TODO: Implement create() method.
         $providerId = 'duo_atlassian_crowd_authorization.security.authentication.provider.' . $id;
-        $provider = new DefinitionDecorator('duo_crowd_auth_sso.security.authentication.provider');
+        $provider = new DefinitionDecorator('duo_atlassian_crowd_authorization.security.authentication.provider');
         $provider->replaceArgument(0, new Reference($userProvider));
         $container->setDefinition($providerId, $provider);
 
