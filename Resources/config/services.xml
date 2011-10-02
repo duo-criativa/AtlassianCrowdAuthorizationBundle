@@ -12,9 +12,11 @@
     </parameters>
 
     <services>
+
         <service id="duo_atlassian_crowd_authorization.security.authentication.provider" class="%duo_atlassian_crowd_authorization.security.authentication.provider.class%" public="false">
             <argument />
             <argument>%duo_atlassian_crowd_authorization.service.provider.class%</argument>
+            <argument type="service" id="service_container" />
             <argument type="service" id="logger" on-invalid="null" />
             <tag name="monolog.logger" channel="security" />
         </service>
@@ -32,8 +34,8 @@
 
 
         <service id="duo_atlassian_crowd_authorization.user_manager" class="Duo\AtlassianCrowdAuthorizationBundle\Security\User\UserManager" public="false">
-            <argument type="service" id="doctrine.orm.default_entity_manager" />
             <argument>%duo_atlassian_crowd_authorization.model.user.class%</argument>
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
         </service>
 
 

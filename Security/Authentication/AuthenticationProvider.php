@@ -24,11 +24,15 @@ class AuthenticationProvider implements AuthenticationProviderInterface
     protected $userProvider;
     protected $em;
 
-    function __construct($userProvider, $serviceProvider, LoggerInterface $logger = null)
+    function __construct($userProvider, $serviceProvider, $container, LoggerInterface $logger = null)
     {
         $this->userProvider = $userProvider;
-        $this->serviceProvider = $serviceProvider;
         $this->logger = $logger;
+        $this->container = $container;
+        $serviceProvider->setServer($container->getParameter('crowd.server'));
+        $serviceProvider->setAppName($container->getParameter('crowd.app_name'));
+        $serviceProvider->setAppPassword($container->getParameter('crowd.app_password'));
+        $this->serviceProvider = $serviceProvider;
     }
 
     /**
@@ -65,6 +69,7 @@ class AuthenticationProvider implements AuthenticationProviderInterface
             $user->setFirstName($service_response['user']['first_name']);
             $user->setLastName($service_response['user']['last_name']);
             $user->setDisplayName($service_response['user']['display_name']);
+            $user->setActive($service_response['user']['active']);
 
             $groups = $this->serviceProvider->retrieveUserGroups($user->getUsername());
             $user->setRoles($groups);
@@ -91,7 +96,7 @@ class AuthenticationProvider implements AuthenticationProviderInterface
     function supports(TokenInterface $token)
     {
         // TODO: Implement supports() method.
-        return ($token instanceof SsoToken);
+        return ($token instanceof Token);
     }
 
 }

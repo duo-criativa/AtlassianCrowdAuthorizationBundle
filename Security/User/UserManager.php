@@ -1,5 +1,5 @@
 <?php
- /** 
+ /**
  * ${description}
  *
  * Propriedade intelectual de Duo Criativa (www.duocriativa.com.br).
@@ -13,8 +13,16 @@ namespace Duo\AtlassianCrowdAuthorizationBundle\Security\User;
 
 use \Symfony\Component\Security\Core\User\UserInterface;
 use \Symfony\Component\Security\Core\User\UserProviderInterface;
- 
-class UserManager implements UserProviderInterface {
+
+class UserManager implements UserProviderInterface
+{
+
+    protected $serviceProvider;
+
+    function __construct($serviceProvider)
+    {
+        $this->serviceProvider = $serviceProvider;
+    }
 
     /**
      * Loads the user for the given username.
@@ -29,7 +37,8 @@ class UserManager implements UserProviderInterface {
      */
     function loadUserByUsername($username)
     {
-        // TODO: Implement loadUserByUsername() method.
+        $service_response = $this->serviceProvider->retrieveUser($username);
+        return $this->createUserObject($service_response);
     }
 
     /**
@@ -46,8 +55,8 @@ class UserManager implements UserProviderInterface {
      */
     function refreshUser(UserInterface $user)
     {
-        // TODO: Implement refreshUser() method.
-        return $user;
+        $service_response = $this->serviceProvider->retrieveUser($user->getUsername());
+        return $this->createUserObject($service_response);
     }
 
     /**
@@ -62,5 +71,20 @@ class UserManager implements UserProviderInterface {
         // TODO: Implement supportsClass() method.
     }
 
+    protected function createUserObject($service_response)
+    {
+        $user = new DuoAtlassianCrowdAuthorizationBundle\Security\User();
+        $user->setUsername($service_response['username']);
+        $user->setEmail($service_response['email']);
+        $user->setFirstName($service_response['first_name']);
+        $user->setLastName($service_response['last_name']);
+        $user->setDisplayName($service_response['display_name']);
+        $user->setActive($service_response['active']);
+
+        $groups = $this->serviceProvider->retrieveUserGroups($user->getUsername());
+        $user->setRoles($groups);
+
+        return $user;
+    }
 
 }

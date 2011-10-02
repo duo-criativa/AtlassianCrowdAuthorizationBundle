@@ -25,6 +25,7 @@ class AuthenticationListener implements ListenerInterface
 {
 
     protected $em;
+
     /**
      * Constructor.
      *
@@ -52,7 +53,7 @@ class AuthenticationListener implements ListenerInterface
         $this->logger = $logger;
         $this->dispatcher = $dispatcher;
         $this->container = $container;
-//        $this->em = $em;
+        //        $this->em = $em;
     }
 
     /**
@@ -70,21 +71,24 @@ class AuthenticationListener implements ListenerInterface
         $token = new Token();
 
         $cookies = $event->getRequest()->cookies;
-        if ($cookies->has('crowd_token_key')) {
+        if ($cookies->has('crowd_token_key'))
+        {
             $token->setCrowdToken($cookies->get('crowd_token_key'));
-        } else {
+        } else
+        {
             $post_params = $event->getRequest()->request->all();
-            if(isset($post_params['crowd_auth_login'])){
+            if (isset($post_params['crowd_auth_login']))
+            {
                 $login_data = $post_params['crowd_auth_login'];
                 $token->setUsername($login_data['_username']);
                 $token->setPassword($login_data['_password']);
-            } else {
+            } else
+            {
                 $parameters = array();
                 $parameters['last_username'] = '';
                 return $event->setResponse($this->container->get('templating')->renderResponse('DuoAtlassianCrowdAuthorizationBundle:Default:login.html.twig', $parameters));
             }
         }
-
 
         try
         {
@@ -99,13 +103,17 @@ class AuthenticationListener implements ListenerInterface
                 }
 
                 return $this->securityContext->setToken($returnValue);
+
             } else if ($returnValue instanceof Response)
             {
                 return $event->setResponse($returnValue);
             }
         } catch (AuthenticationException $e)
         {
-            // you might log something here
+            if (null !== $this->logger)
+            {
+                $this->logger->err(__METHOD__ . ' | Uma excecao inesperada ocorreu: ' . $e->getMessage());
+            }
         }
 
         $response = new Response();

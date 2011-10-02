@@ -75,6 +75,13 @@ update the firewalls section of config.yml
             pattern:    ^/
             duo_atlassian_crowd_authorization: true
 
+addo to your parameters.yml
+
+parameters:
+    ....
+    crowd.app_name: myapp
+    crowd.app_password: that-the-password-your-set-in-crowd-app
+    crowd.server: https://crowd.myapp.com
 
 ## TODO
 

@@ -16,12 +16,12 @@ use \Symfony\Component\Security\Core\User\UserInterface;
 class User implements  UserInterface {
 
     protected $roles;
-    protected $attributes;
     protected $username;
     protected $first_name;
     protected $last_name;
     protected $display_name;
     protected $email;
+    protected $active;
 
     /**
      * Returns the roles granted to the user.
@@ -135,6 +135,16 @@ class User implements  UserInterface {
     public function getLastName()
     {
         return $this->last_name;
+    }
+
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+
+    public function getActive()
+    {
+        return $this->active;
     }
 
 
