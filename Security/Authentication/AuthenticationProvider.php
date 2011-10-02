@@ -24,7 +24,7 @@ class AuthenticationProvider implements AuthenticationProviderInterface
     protected $userProvider;
     protected $em;
 
-    function __construct($userProvider, $serviceProvider, LoggerInterface $logger = null )
+    function __construct($userProvider, $serviceProvider, LoggerInterface $logger = null)
     {
         $this->userProvider = $userProvider;
         $this->serviceProvider = $serviceProvider;
@@ -43,69 +43,41 @@ class AuthenticationProvider implements AuthenticationProviderInterface
     function authenticate(TokenInterface $token)
     {
 
-
-        if($token->getCrowdToken()!=''){
-
-            $content = $sso->retrieveToken($token->getCrowdToken());
-            $content2 = $sso->getUserAttributes("paulo");
-
-            if (null !== $this->logger)
-            {
-                $this->logger->info(__METHOD__ . ' | Retorno do Crowd: ' . $content);
-                $this->logger->info(__METHOD__ . ' | Retorno do Crowd USER ATTRS: ' . $content2);
-            }
-
-        } else {
-            $content = $sso->login($token->getUsername(), $token->getPassword());
-            if (null !== $this->logger)
-            {
-                $this->logger->info(__METHOD__ . ' | Retorno do Crowd: ' . $content);
-            }
-        }
-
-
-        // Encerra o cURL
-        curl_close ($ch);
-
-        return $token;
-        /*$as->requireAuth();
-
-        if ($as->isAuthenticated())
+        try
         {
-
-            $attributes = $as->getAttributes();
-            $authdata = $as->getAuthDataArray();
-
-            $token = new SsoSamlToken($attributes['groups']);
-            $username = $attributes['username'][0];
-            $id = $attributes['id'][0];
-            $email = $attributes['email'][0];
-            try
+            if ($token->getCrowdToken() != '')
             {
-                $user = $this->userProvider->loadUserByUsername($username);
-            } catch (\Symfony\Component\Security\Core\Exception\UsernameNotFoundException $e)
+                $service_response = $this->serviceProvider->retrieveToken($token->getCrowdToken());
+            } else
             {
-                $user = new \Eficia3\SsoSamlAuthBundle\Entity\User();
-                $user->setId($id);
+                $service_response = $this->serviceProvider->createSessionToken($token->getUsername(), $token->getPassword());
+            }
+            if (null !== $this->logger)
+            {
+                $this->logger->info(__METHOD__ . ' | Retorno do AuthenticatorProvider: ' . print_r($service_response, true));
             }
 
-            $user->setUsername($username);
-            $user->setUsernameCanonical($username);
-            $user->setEmail($email);
-            $user->setEmailCanonical($email);
-//                $user->setGroups($attributes['groups']);
-//                $user->setEnabled($attributes['email']);
+            if (!$service_response['user']['active']) throw new Symfony\Component\Security\Core\Exception\AuthenticationException('User is not active.');
 
-            $user->setAuthenticationData($authdata);
-            $user->setLastLogin(new \DateTime);
-            $this->userProvider->updateUser($user);
+            $user = new DuoAtlassianCrowdAuthorizationBundle\Security\User();
+            $user->setUsername($service_response['user']['username']);
+            $user->setEmail($service_response['user']['email']);
+            $user->setFirstName($service_response['user']['first_name']);
+            $user->setLastName($service_response['user']['last_name']);
+            $user->setDisplayName($service_response['user']['display_name']);
+
+            $groups = $this->serviceProvider->retrieveUserGroups($user->getUsername());
+            $user->setRoles($groups);
 
             $token->setUser($user);
             $token->setAuthenticated(true);
 
+        } catch (\Duo\AtlassianCrowdAuthorization\Exception\InvalidUserAuthenticationException $e)
+        {
+            throw new Symfony\Component\Security\Core\Exception\AuthenticationException($e->getMessage());
+        }
 
-            return $token;
-        }*/
+        return $token;
 
     }
 

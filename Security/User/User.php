@@ -17,7 +17,11 @@ class User implements  UserInterface {
 
     protected $roles;
     protected $attributes;
-    protected $nameID;
+    protected $username;
+    protected $first_name;
+    protected $last_name;
+    protected $display_name;
+    protected $email;
 
     /**
      * Returns the roles granted to the user.
@@ -60,7 +64,12 @@ class User implements  UserInterface {
      */
     function getUsername()
     {
-        return $this->attributes['username'];
+        return $this->username;
+    }
+
+    function setUsername($username)
+    {
+        $this->username = $username;
     }
 
     /**
@@ -85,27 +94,47 @@ class User implements  UserInterface {
      */
     function equals(UserInterface $user)
     {
-        $thisnameID = $this->getNameID();
-        $nameID = $user->getNameID();
-        return ( $thisnameID['Value'] == $nameID['Value'] && $thisnameID['SPNameQualifier'] == $nameID['SPNameQualifier'] && $thisnameID['Format'] == $nameID['Format'] );
+        return ( $this->username == $user->getUsername() );
     }
 
-    function getAttributes($attributes){
-        return $this->attributes;
-    }
-
-    function setAttributes($attributes){
-        $this->attributes = $attributes;
-    }
-
-    public function setNameID($nameID)
+    public function setDisplayName($display_name)
     {
-        $this->nameID = $nameID;
+        $this->display_name = $display_name;
     }
 
-    public function getNameID()
+    public function getDisplayName()
     {
-        return $this->nameID;
+        return $this->display_name;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setFirstName($first_name)
+    {
+        $this->first_name = $first_name;
+    }
+
+    public function getFirstName()
+    {
+        return $this->first_name;
+    }
+
+    public function setLastName($last_name)
+    {
+        $this->last_name = $last_name;
+    }
+
+    public function getLastName()
+    {
+        return $this->last_name;
     }
 
 
