@@ -63,6 +63,18 @@ to authenticate your users with a Atlassian Crowd SSO server.
 
 ## Usage
 
+Add to your config.yml
+
+    factories:
+        - "%kernel.root_dir%/../vendor/Duo/AtlassianCrowdAuthorizationBundle/Resources/config/security_factories.xml"
+
+update the firewalls section of config.yml
+
+    firewalls:
+        secured_area:
+            pattern:    ^/
+            duo_atlassian_crowd_authorization: true
+
 
 ## TODO
 

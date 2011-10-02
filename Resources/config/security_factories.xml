@@ -5,7 +5,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="duo_atlassian_crowd_authorization.sso_factory.class">Duo\AtlassianCrowdAuthorizationBundle\Security\Factory\SsoFactory</parameter>
+        <parameter key="duo_atlassian_crowd_authorization.sso_factory.class">Duo\AtlassianCrowdAuthorizationBundle\Security\Factory\Factory</parameter>
     </parameters>
 
     <services>

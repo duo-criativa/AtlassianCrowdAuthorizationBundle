@@ -15,6 +15,7 @@ use \Symfony\Component\Security\Core\User\UserInterface;
 use \Symfony\Component\Security\Core\User\UserProviderInterface;
  
 class UserManager implements UserProviderInterface {
+
     /**
      * Loads the user for the given username.
      *

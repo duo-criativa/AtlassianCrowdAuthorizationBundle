@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use \Duo\AtlassianCrowdAuthorizationBundle\Security\Authentication\Token;
 
-class SsoAuthenticationListener implements ListenerInterface
+class AuthenticationListener implements ListenerInterface
 {
 
     protected $em;

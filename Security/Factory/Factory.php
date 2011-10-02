@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 
-class SsoFactory implements SecurityFactoryInterface
+class Factory implements SecurityFactoryInterface
 {
 
     function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint)

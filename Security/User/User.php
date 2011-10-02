@@ -12,6 +12,7 @@
 namespace Duo\AtlassianCrowdAuthorizationBundle\Security\User;
 
 use \Symfony\Component\Security\Core\User\UserInterface;
+
 class User implements  UserInterface {
 
     protected $roles;
