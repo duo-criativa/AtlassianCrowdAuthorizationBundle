@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+     <parameters>
+        <parameter key="duo_atlassian_crowd_authorization.security.authentication.listener.class">Duo\AtlassianCrowdAuthorizationBundle\Security\Firewall\AuthenticationListener</parameter>
+        <parameter key="duo_atlassian_crowd_authorization.security.authentication.provider.class">Duo\AtlassianCrowdAuthorizationBundle\Security\Authentication\AuthenticationProvider</parameter>
+        <parameter key="duo_atlassian_crowd_authorization.model.user.class">Duo\AtlassianCrowdAuthorizationBundle\Security\User</parameter>
+        <parameter key="duo_atlassian_crowd_authorization.authentication.class">Duo\AtlassianCrowdAuthorization\AuthenticationProvider</parameter>
+    </parameters>
+
+    <services>
+        <service id="duo_atlassian_crowd_authorization.security.authentication.provider" class="%duo_atlassian_crowd_authorization.security.authentication.provider.class%" public="false">
+            <argument />
+            <argument type="service" id="logger" on-invalid="null" />
+            <tag name="monolog.logger" channel="security" />
+            <argument>%duo_atlassian_crowd_authorization.authentication.class%</argument>
+        </service>
+
+        <service id="duo_atlassian_crowd_authorization.security.authentication.listener" class="%duo_atlassian_crowd_authorization.security.authentication.listener.class%" public="false">
+            <argument type="service" id="security.context" />
+            <argument type="service" id="security.authentication.manager" />
+            <argument /><!-- $providerKey -->
+            <argument type="collection" /><!-- $options = array() -->
+            <argument type="service" id="logger" on-invalid="null" />
+            <argument type="service" id="event_dispatcher" on-invalid="null"/>
+            <argument type="service" id="service_container" />
+            <tag name="monolog.logger" channel="security" />
+        </service>
+
+
+        <service id="duo_atlassian_crowd_authorization.user_manager" class="Duo\AtlassianCrowdAuthorizationBundle\Security\User\UserManager" public="false">
+            <argument type="service" id="doctrine.orm.default_entity_manager" />
+            <argument>%duo_atlassian_crowd_authorization.model.user.class%</argument>
+        </service>
+
+
+    </services>
+
+
+</container>
