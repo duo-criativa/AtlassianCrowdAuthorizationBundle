@@ -29,6 +29,7 @@ class AuthenticationProvider implements AuthenticationProviderInterface
         $this->userProvider = $userProvider;
         $this->logger = $logger;
         $this->container = $container;
+        $serviceProvider = new $serviceProvider();
         $serviceProvider->setServer($container->getParameter('crowd.server'));
         $serviceProvider->setAppName($container->getParameter('crowd.app_name'));
         $serviceProvider->setAppPassword($container->getParameter('crowd.app_password'));
