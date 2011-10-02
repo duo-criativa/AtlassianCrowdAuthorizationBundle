@@ -20,13 +20,14 @@ use Symfony\Component\HttpKernel\Log\LoggerInterface;
 class AuthenticationProvider implements AuthenticationProviderInterface
 {
 
-    protected $saml_service_provider;
+    protected $serviceProvider;
     protected $userProvider;
     protected $em;
 
-    function __construct($userProvider, LoggerInterface $logger = null )
+    function __construct($userProvider, $serviceProvider, LoggerInterface $logger = null )
     {
         $this->userProvider = $userProvider;
+        $this->serviceProvider = $serviceProvider;
         $this->logger = $logger;
     }
 
@@ -42,12 +43,8 @@ class AuthenticationProvider implements AuthenticationProviderInterface
     function authenticate(TokenInterface $token)
     {
 
-        // Inicia o cURL
-        $ch = curl_init();
 
-        $sso = new CrowdSSO(null,$this->logger);
         if($token->getCrowdToken()!=''){
-
 
             $content = $sso->retrieveToken($token->getCrowdToken());
             $content2 = $sso->getUserAttributes("paulo");
