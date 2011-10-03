@@ -98,7 +98,7 @@ class AuthenticationProvider implements AuthenticationProviderInterface
     function supports(TokenInterface $token)
     {
         // TODO: Implement supports() method.
-        return ($token instanceof Token);
+        return ($token instanceof \Duo\AtlassianCrowdAuthorizationBundle\Security\Authentication\Token);
     }
 
 }
