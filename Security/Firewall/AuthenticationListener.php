@@ -108,7 +108,7 @@ class AuthenticationListener implements ListenerInterface
             {
                 return $event->setResponse($returnValue);
             }
-        } catch (AuthenticationException $e)
+        } catch (\Symfony\Component\Security\Core\Exception\AuthenticationException $e)
         {
             if (null !== $this->logger)
             {
