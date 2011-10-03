@@ -15,6 +15,10 @@ class DefaultController extends Controller
      */
     public function loginAction()
     {
+        if($this->get('security.context')->getToken()->isAuthenticated()){
+            $session = $this->getRequest()->getSession();
+            return $this->redirect($session->get('referrer.url', '/'));
+        }
         if ($this->get('request')->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $this->get('request')->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
         } else {
