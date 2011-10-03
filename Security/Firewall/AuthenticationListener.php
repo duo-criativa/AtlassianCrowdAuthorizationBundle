@@ -110,15 +110,16 @@ class AuthenticationListener implements ListenerInterface
             }
         } catch (\Symfony\Component\Security\Core\Exception\AuthenticationException $e)
         {
-            if (null !== $this->logger)
+            $this->securityContext->setToken(null);
+                if (null !== $this->logger)
             {
                 $this->logger->err(__METHOD__ . ' | Uma excecao inesperada ocorreu: ' . $e->getMessage());
             }
         }
 
-        $response = new Response();
-        $response->setStatusCode(403);
-        $event->setResponse($response);
+//        $response = new Response();
+//        $response->setStatusCode(403);
+//        $event->setResponse($response);
 
     }
 
