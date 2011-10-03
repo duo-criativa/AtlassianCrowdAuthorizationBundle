@@ -53,7 +53,6 @@ class AuthenticationListener implements ListenerInterface
         $this->logger = $logger;
         $this->dispatcher = $dispatcher;
         $this->container = $container;
-        //        $this->em = $em;
     }
 
     /**
@@ -110,6 +109,9 @@ class AuthenticationListener implements ListenerInterface
         } catch (\Symfony\Component\Security\Core\Exception\AuthenticationException $e)
         {
             $this->securityContext->setToken(null);
+            $response = new Response();
+            $this->container->get('templating')->render('DuoAtlassianCrowdAuthorizationBundle:Default:login.html.twig', array(), $response);
+            $event->setResponse($response);
                 if (null !== $this->logger)
             {
                 $this->logger->err(__METHOD__ . ' | Uma excecao inesperada ocorreu: ' . $e->getMessage());
