@@ -63,9 +63,8 @@ class AuthenticationListener implements ListenerInterface
      */
     function handle(GetResponseEvent $event)
     {
-        if (null !== $this->logger)
-        {
-            $this->logger->info(__METHOD__ . ' | Tentando autenticar o usuario');
+        if (null !== $this->logger) {
+            $this->logger->debug(sprintf('Checking secure context token: %s', $this->securityContext->getToken()));
         }
 
         $token = new Token();
@@ -102,7 +101,7 @@ class AuthenticationListener implements ListenerInterface
                     $this->logger->info(sprintf('Authentication returned the following attributes from Crowd: %s', print_r($returnValue->getAttributes(), true)));
                 }
 
-                return $this->securityContext->setToken($returnValue);
+                $this->securityContext->setToken($returnValue);
 
             } else if ($returnValue instanceof Response)
             {
