@@ -18,9 +18,12 @@ class UserManager implements UserProviderInterface
 {
 
     protected $serviceProvider;
+    protected $container;
+    protected $userClass;
 
     function __construct($userClass, $serviceProviderClass, $container)
     {
+        $this->userClass = $userClass;
         $this->container = $container;
         $serviceProviderClass = new $serviceProviderClass();
         $serviceProviderClass->setServer($container->getParameter('crowd.server'));
@@ -78,7 +81,8 @@ class UserManager implements UserProviderInterface
 
     protected function createUserObject($service_response)
     {
-        $user = new DuoAtlassianCrowdAuthorizationBundle\Security\User();
+        $userClass = $this->userClass;
+        $user = new $userClass();
         $user->setUsername($service_response['username']);
         $user->setEmail($service_response['email']);
         $user->setFirstName($service_response['first_name']);
