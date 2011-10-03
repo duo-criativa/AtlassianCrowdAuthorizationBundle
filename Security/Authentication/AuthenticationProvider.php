@@ -80,7 +80,8 @@ class AuthenticationProvider implements AuthenticationProviderInterface
 
         } catch (\Duo\AtlassianCrowdAuthorization\Exception\InvalidUserAuthenticationException $e)
         {
-            throw new \Symfony\Component\Security\Core\Exception\AuthenticationException($e->getMessage());
+//            throw new \Symfony\Component\Security\Core\Exception\AuthenticationException($e->getMessage());
+            $token = null;
         }
 
         return $token;
