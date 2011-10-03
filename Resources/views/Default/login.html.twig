@@ -3,15 +3,11 @@
 {% block content %}
     <h1>Login</h1>
 
-    <p>
-        Choose between two default users: <em>user/userpass</em> <small>(ROLE_USER)</small> or <em>admin/adminpass</em> <small>(ROLE_ADMIN)</small>
-    </p>
-
     {% if error is defined %}
         <div class="error">{{ error.message }}</div>
     {% endif %}
 
-    <form action="{{ path("_security_check") }}" method="post" id="login">
+    <form action="{{ path("_login") }}" method="post" id="login">
         <div>
             <label for="username">Username</label>
             <input type="text" id="username" name="crowd_auth_login[_username]" value="{{ last_username }}" />
