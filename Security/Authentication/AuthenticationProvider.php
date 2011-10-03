@@ -67,9 +67,9 @@ class AuthenticationProvider implements AuthenticationProviderInterface
             $user = new \Duo\AtlassianCrowdAuthorizationBundle\Security\User\User();
             $user->setUsername($service_response['user']['username']);
             $user->setEmail($service_response['user']['email']);
-            $user->setFirstName($service_response['user']['first_name']);
-            $user->setLastName($service_response['user']['last_name']);
-            $user->setDisplayName($service_response['user']['display_name']);
+            $user->setFirstName($service_response['user']['first-name']);
+            $user->setLastName($service_response['user']['last-name']);
+            $user->setDisplayName($service_response['user']['display-name']);
             $user->setActive($service_response['user']['active']);
 
             $groups = $this->serviceProvider->retrieveUserGroups($user->getUsername());
