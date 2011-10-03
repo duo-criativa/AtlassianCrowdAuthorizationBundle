@@ -8,7 +8,7 @@
         <parameter key="duo_atlassian_crowd_authorization.security.authentication.listener.class">Duo\AtlassianCrowdAuthorizationBundle\Security\Firewall\AuthenticationListener</parameter>
         <parameter key="duo_atlassian_crowd_authorization.security.authentication.provider.class">Duo\AtlassianCrowdAuthorizationBundle\Security\Authentication\AuthenticationProvider</parameter>
         <parameter key="duo_atlassian_crowd_authorization.model.user.class">Duo\AtlassianCrowdAuthorizationBundle\Security\User</parameter>
-        <parameter key="duo_atlassian_crowd_authorization.service.provider.class">Duo\AtlassianCrowdAuthorization\AuthenticationProvider</parameter>
+        <parameter key="duo_atlassian_crowd_authorization.service.provider.class">Duo\AtlassianCrowdAuthorization\AuthorizationProvider</parameter>
     </parameters>
 
     <services>
