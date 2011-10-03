@@ -85,9 +85,9 @@ class UserManager implements UserProviderInterface
         $user = new $userClass();
         $user->setUsername($service_response['username']);
         $user->setEmail($service_response['email']);
-        $user->setFirstName($service_response['first_name']);
-        $user->setLastName($service_response['last_name']);
-        $user->setDisplayName($service_response['display_name']);
+        $user->setFirstName($service_response['first-name']);
+        $user->setLastName($service_response['last-name']);
+        $user->setDisplayName($service_response['display-name']);
         $user->setActive($service_response['active']);
 
         $groups = $this->serviceProvider->retrieveUserGroups($user->getUsername());
