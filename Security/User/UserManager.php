@@ -19,9 +19,14 @@ class UserManager implements UserProviderInterface
 
     protected $serviceProvider;
 
-    function __construct($serviceProvider)
+    function __construct($userClass, $serviceProviderClass, $container)
     {
-        $this->serviceProvider = $serviceProvider;
+        $this->container = $container;
+        $serviceProviderClass = new $serviceProviderClass();
+        $serviceProviderClass->setServer($container->getParameter('crowd.server'));
+        $serviceProviderClass->setAppName($container->getParameter('crowd.app_name'));
+        $serviceProviderClass->setAppPassword($container->getParameter('crowd.app_password'));
+        $this->serviceProvider = $serviceProviderClass;
     }
 
     /**
