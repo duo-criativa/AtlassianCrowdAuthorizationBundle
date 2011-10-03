@@ -108,7 +108,7 @@ class AuthenticationListener implements ListenerInterface
             }
         } catch (\Symfony\Component\Security\Core\Exception\AuthenticationException $e)
         {
-            $this->securityContext->setToken(null);
+//            $this->securityContext->setToken(null);
             $response = new Response();
             $this->container->get('templating')->render('DuoAtlassianCrowdAuthorizationBundle:Default:login.html.twig', array(), $response);
             $event->setResponse($response);
