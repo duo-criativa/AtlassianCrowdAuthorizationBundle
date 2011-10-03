@@ -64,7 +64,7 @@ class AuthenticationProvider implements AuthenticationProviderInterface
 
             if (!$service_response['user']['active']) throw new Symfony\Component\Security\Core\Exception\AuthenticationException('User is not active.');
 
-            $user = new \Duo\AtlassianCrowdAuthorizationBundle\Security\User();
+            $user = new \Duo\AtlassianCrowdAuthorizationBundle\Security\User\User();
             $user->setUsername($service_response['user']['username']);
             $user->setEmail($service_response['user']['email']);
             $user->setFirstName($service_response['user']['first_name']);
