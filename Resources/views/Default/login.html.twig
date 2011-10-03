@@ -4,7 +4,7 @@
     <h1>Login</h1>
 
     {% if error is defined %}
-        <div class="error">{{ error.message }}</div>
+        <div class="error">{{ error }}</div>
     {% endif %}
 
     <form action="{{ path("_login") }}" method="post" id="login">
